@@ -1,0 +1,133 @@
+<!-- <!DOCTYPE html>
+<html>
+    <head>
+        <title>The Dorm Room Dealer</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <div class="container">
+            <div class="contact-box">
+                <div class="left"></div>
+                <div class="right">
+                <form action="/register" method="POST">{% csrf_token %}
+                    <h2>Register</h2>
+                    <input type="text" class="field" placeholder="First Name" name="firstname" required>
+                    <input type="text" class="field" placeholder="Last Name" name="lastname" required>
+                    <input type="text" class="field"  placeholder="Contact Number" pattern="[1-9][0-9]{9}" name="contact" required>
+                    <input type="text" class="field" placeholder="Username" name="username" required>
+                    <input type="email" class="field" placeholder="Email-ID" name="email" required>
+                    <input type="password" class="field" placeholder="Enter Password" name="p1" required>
+                    <input type="password" class="field" placeholder="Re Enter Password" name="p2" required>
+                    <input type="submit" class="btn" value="Submit">
+                    <input type="reset" class="btn" value="Reset">
+                </form>
+                </div>
+                {% for m in messages %}
+			<center><font color="red"><h2>{{m}}</h2></font></center>
+		{% endfor %}
+            </div>
+        </div>
+    </body>
+</html> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Register Yourself</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="./../static/css/login.css" />
+</head>
+
+<body>
+  <hr class="h-100" />
+
+  <nav class="navbar navbar-light justify-content-between">
+    <a class="ml-5 navbar-brand">
+      <img src="/static/img/logo.png" class="img-fluid  rounded-circle my-3 mr-2" style="width: 80px"
+        alt="profile" />DRD : THE DORM ROOM DEALER</a>
+
+  </nav>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card form-card my-5">
+          <h2 class="text-center text-primary mt-5">SIGN UP</h2>
+
+          <form class="card-body cardbody-color p-lg-5" action="/register" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="text-center">
+              <img src="/static/img/logo.png" width="400px" alt="profile" />
+            </div>
+
+            <div class="mb-3">
+              <input type="text" class="form-control" id="name" placeholder="First Name" name="firstname" required />
+            </div>
+            <div class="mb-3">
+              <input type="text" class="form-control" id="name" placeholder="Last Name" name="lastname" required />
+            </div>
+            <div class="mb-3">
+            <div class="mb-3">
+                <input type="text" class="form-control" id="hall" placeholder="Hall" name="hall" required />
+            </div>
+              <div class="mb-3">  
+              <input type="text" class="form-control" id="contact" placeholder="Contact Number" pattern="[1-9][0-9]{9}"
+                name="contact" required />
+            </div>
+
+            <div class="mb-3">
+              <input type="text" class="form-control" id="email" placeholder="Enter your iitk email ID" name="email" required />
+            </div>
+
+            <!-- <div class="mb-3">
+              <label for="profile" class="form-label">Upload Profile Picture</label>
+              <input type="file" class="form-control" id="profile" name="profile" accept="image/*"
+                value="Profile Picture">
+            </div> -->
+
+            <div class="mb-3">
+              <input type="text" class="form-control" id="username" placeholder="username" name="username" required />
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <input type="password" class="form-control" id="password" placeholder="password" name="p1" required />
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button"
+                    onclick="var passwordField = document.getElementById('password'); if (passwordField.type === 'password') { passwordField.type = 'text'; } else { passwordField.type = 'password'; }">Show</button>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="mb-3">
+              <input type="password" class="form-control" id="p2" placeholder="Confirm Password" name="p2" required />
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary px-5 mb-5 w-100">
+                Sign Up
+              </button>
+            </div>
+            {% for m in messages %}
+            <center>
+              <font color="red">
+                <h2>{{m}}</h2>
+              </font>
+            </center>
+            {% endfor %}
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

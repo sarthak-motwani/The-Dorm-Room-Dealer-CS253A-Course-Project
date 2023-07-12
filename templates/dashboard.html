@@ -1,0 +1,277 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        background-color: #B8E2F2;
+    }
+    .container-2{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px 150px;
+    margin-top: 20px;
+    }
+    .contact-box{
+    max-width: 950px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 0px 19px 5px rgba(0, 0, 0, 0.19);
+    }
+    .left{
+    height: 100%;
+    background: no-repeat center;
+    background-size: cover;
+    }
+    .right{
+        padding: 25px 40px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        background-color: transparent;
+        overflow-x: scroll;
+        width: 100%;
+    }
+
+    .pagination a,
+    .pagination span {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 14px;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        background-color: black;
+    }
+
+    .pagination a:hover {
+        background-color: #f2f2f2;
+    }
+
+    .pagination .current {
+        font-weight: bold;
+    }
+
+    .pagination a.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+</style>
+
+<div class="container-2">
+
+    <div class="contact-box">
+        {% if profile %}
+        <div class="left" >
+            <img src="/media/{{profile}}" alt="Profile Picture">
+        </div>
+        {% else %}
+        <div class="left" >
+            <img src="/static/img/profile.jpeg" alt="Profile Picture">
+        </div>
+        {% endif %}
+        <div class="right">
+            <h4>Name : {{details.first_name}} {{details.last_name}} </h4>
+            <h4>Username : {{details.username}}</h4>
+            <h4>Email-Id : {{details.email}}</h4>
+            <h4>Contact No : {{contact}}</h4>
+            <h4>Hall : {{hall}}</h4>
+            <a href="{% url 'edit_profile' %}" class="btn btn-primary">Edit Details</a>
+        </div> 
+    </div>      
+
+</div>
+<div class="container" >
+
+    <b><h2>SELLING HISTORY</h2></b>
+
+    <b><h4>Your Live Auction Products :</h4></b>
+
+{% for i in page_obj%}
+<center>
+    <table border="0">
+
+        <tr>
+            <td colspan="2"><h3><b>{{i.name}}</b></h3></td>
+            <td rowspan="5"><img src="{{i.profile.url}}" class="img" alt=""></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h4>{{i.short_description}}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Current Price : ₹{{i.currentPrice}}</h4></td>
+            <td><h4>Base Price : ₹{{i.basePrice}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction Start Date : {{i.start_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction End Date : {{i.end_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Status : {{i.sold}}</h4></td>
+        </tr>
+    </table>
+
+
+    <form method="POST" action="{% url 'dashboard' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="hidden" name="item_id" value="{{ i.id}}">
+        <button type="submit">End Auction For this Product</button>
+      </form>
+    </center>
+
+{%endfor%}
+<hr>
+
+<b><h4>Your Future Auction Products:</h4></b>
+{% for i in page_obj2%}
+<center>
+<table border="0">
+    <tr>
+        <td colspan="2"><h3><b>{{i.name}}</b></h3></td>
+        <td rowspan="5"><img src="{{i.profile.url}}" class="img" alt=""></td>
+    </tr>
+    <tr>
+        <td colspan="2"><h4>{{i.short_description}}</h4></td>
+    </tr>
+    <tr>
+        <td><h4>Current Price : ₹{{i.currentPrice}}</h4></td>
+        <td><h4>Base Price : ₹{{i.basePrice}}</h4></td>
+    </tr>
+    <tr>
+        <td colspan="2" ><h4>Auction Start Date : {{i.start_date}}</h4></td>
+    </tr>
+    <tr>
+        <td colspan="2" ><h4>Auction End Date : {{i.end_date}}</h4></td>
+    </tr>
+    <tr>
+        <td colspan="2" ><h4>Status : {{i.sold}}</h4></td>
+    </tr>
+</table>
+</center>
+
+{%endfor%}
+<hr>
+
+    <div><b><h4>Your Past Auction Products :</h4></b></div>
+{% for i in page_obj3%}
+<center>
+    <table border="0">
+        <tr>
+            <td colspan="2"><h3><b>{{i.name}}</b></h3></td>
+            <td rowspan="5"><img src="{{i.profile.url}}" class="img" alt=""></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h4>{{i.short_description}}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Current Price : ₹{{i.currentPrice}}</h4></td>
+            <td><h4>Base Price : ₹{{i.basePrice}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction Start Date : {{i.start_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction End Date : {{i.end_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Status : {{i.sold}}</h4></td>
+        </tr>
+    </table>
+    </center>
+
+{%endfor%}
+<hr>
+
+    <b><h2>BIDDING HISTORY</h2></b>
+
+
+    <b><h4>Your Live Bids:</h4></b>
+{% for i in page_obj4%}
+<center>
+    <table border="0">
+        <tr>
+            <td colspan="2"><h3><b>{{i.name}}</b></h3></td>
+            <td rowspan="5"><img src="{{i.profile.url}}" class="img" alt=""></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h4>{{i.short_description}}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Current Price :₹{{i.currentPrice}}</h4></td>
+            <td><h4>Base Price :₹{{i.basePrice}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction Start Date : {{i.start_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction End Date : {{i.end_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Status : {{i.sold}}</h4></td>
+        </tr>
+    </table>
+    </center>
+    {%endfor%}
+    <hr>
+
+    <b><h4>Your Past Purchases:</h4></b>
+{% for i in page_obj5%}
+<center>
+    <table border="0">
+        <tr>
+            <td colspan="2"><h3><b>{{i.name}}</b></h3></td>
+            <td rowspan="5"><img src="{{i.profile.url}}" class="img" alt=""></td>
+        </tr>
+        <tr>
+            <td colspan="2"><h4>{{i.short_description}}</h4></td>
+        </tr>
+        <tr>
+            <td><h4>Current Price :₹{{i.currentPrice}}</h4></td>
+            <td><h4>Base Price :₹{{i.basePrice}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction Start Date : {{i.start_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Auction End Date : {{i.end_date}}</h4></td>
+        </tr>
+        <tr>
+            <td colspan="2" ><h4>Status : {{i.sold}}</h4></td>
+        </tr>
+    </table>
+    </center>
+    {%endfor%}
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; First</a>
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+    
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+    
+            {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

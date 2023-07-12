@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>The Dorm Room Dealer</title>
+        <link rel="stylesheet" href="../static/css/nav.css">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .navbar {
+                background-color: black;
+                height: 80px;
+                font-family: 'Barlow Semi Condensed', sans-serif;
+            }
+            
+            .navbar-brand {
+                color: #fff !important;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-left: 20px;
+            }
+            
+            .navbar-nav {
+                margin: 0 auto;
+            }
+            
+            .nav-link {
+                color: #fff !important;
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-left: 20px;
+                
+            }
+            
+            .nav-link:hover {
+                color: black;
+            }
+            </style>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light ">
+                <a class="navbar-brand">THE DORM ROOM DEALER</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/items/additem">Add Item</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/dashboard">Dashboard</a>
+                        </li>
+                        <!-- write a nav-link for notifications with symbol for bell for the notifications-->
+                        {% if show_notifications_link %}
+    <li class="nav-item">
+        <a class="nav-link" href="/notifications">
+            <i class="fa fa-bell"></i> Notifications{% if num_notifications > 0 %}<span class="badge badge-pill badge-danger">{{ num_notifications }}</span>{% endif %}
+        </a>
+    </li>
+{% endif %}
+
+                          
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        {% block content %}
+        {% endblock %}
+    </body>
+</html>

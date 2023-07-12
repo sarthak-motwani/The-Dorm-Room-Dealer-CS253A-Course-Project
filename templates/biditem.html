@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #B8E2F2;
+    }
+
+    .container {
+        background-color: #B8E2F2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .row {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 80%;
+        margin-bottom: 10px;
+    }
+
+    .label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .hr {
+        border: none;
+        height: 1px;
+        background-color: black;
+        width: 100%;
+        margin: 10px 0;
+    }
+
+    .image {
+        max-height: 300px;
+        max-width: 400px;
+    }
+
+    .field {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        margin-bottom: 10px;
+    }
+
+    .btt {
+        font-size: 16px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btt:hover {
+        background-color: #3e8e41;
+    }
+</style>
+<div class="container">
+    <h4>Product Details</h4>
+    <div class="row">
+        <span class="label">Name:</span>
+        <b>{{item.name}}</b>
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Tag:</span>
+        {{item.tag}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Description:</span>
+        {{item.description}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Base Price:</span>
+        ₹{{item.basePrice}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Current Price:</span>
+        ₹{{item.currentPrice}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Hall:</span>
+        {{item.location}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Auction ends on:</span>
+        {{item.end_date}}
+    </div>
+
+    <hr class="hr">
+
+    <div class="row">
+        <span class="label">Profile Image:</span>
+        <img src="{{item.profile.url}}" class="image">
+    </div>
+
+    {% if item.img1 %}
+    <div class="row">
+        <span class="label"></span>
+        <img src="{{item.img1.url}}" class="image">
+    </div>
+    {% endif %}
+
+    {% if item.img2 %}
+    <div class="row">
+        <span class="label"></span>
+        <img src="{{item.img2.url}}" class="image">
+    </div>
+    {% endif %}
+
+    <hr class="hr">
+    <form id="myForm" action="successfullBid">
+        <div class="row">
+            <label class="label">Enter Amount for Bid:</label>
+            <input type="hidden" name="iid" value="{{item.id}}">
+            <input type="number" name="bidrs" class="field" placeholder="Enter you amount" min={{item.currentPrice}}
+                max="100000">
+            <input type="submit" class="btt" id="bid-button" value="Bid now" onClick="confirmSubmit(event)">
+        </div>
+    </form>
+</div>
+
+
+<script>
+    function confirmSubmit(event) {
+    event.preventDefault();
+    var bidAmount = document.forms["myForm"]["bidrs"].value;
+    var currentPrice = {{item.currentPrice}};
+    var maxbid_amt = 1000000;
+    if (bidAmount < currentPrice) {
+      alert("Bid unsuccessful!\nBid amount must be greater than or equal to current price.");
+      return false;
+    }
+    else if(bidAmount > maxbid_amt){
+       alert("Invalid bid amount. Bid amount must not exceed Rs. "+ maxbid_amt + ".");
+       return false;
+    }
+    var result = confirm("Are you sure you want to place this bid?");
+    if (result) {
+      // If the user clicks "OK", submit the form
+      document.forms["myForm"].submit();
+    }
+    else{
+        return false;
+    }
+  }
+</script>
+{% comment %}
+<script>
+        // Find the "Bid Now" button element
+        const bidButton = document.querySelector('#bid-button');
+
+// Add a click event listener to the button
+bidButton.addEventListener('click', (event) => {
+    // Prevent the default form submission
+    event.preventDefault();
+    const bidInput = document.querySelector('input[name="bidrs"]');
+    const bidAmount = parseInt(bidInput.value);
+
+    // When the button is clicked, show a confirmation pop-up
+    const confirmBid = window.confirm('Are you sure you want to place a bid?');
+
+    if (bidAmount >= currentPrice) {
+
+        // Check if the user clicked "OK" in the confirmation pop-up
+        if (confirmBid) {
+            // If the user confirmed the bid, submit the form
+            const form = document.querySelector('form');
+            form.submit();
+
+            // Log a message to the console
+            console.log('Bid confirmed!');
+        }
+        else {
+            // If the user cancelled the bid, do nothing
+            console.log('Bid cancelled.');
+        }
+    }
+    else {
+        const errorText = document.createElement('p');
+        errorText.textContent = 'Bid amount must be greater than or equal to the current price.';
+        errorText.style.color = 'red';
+        bidForm.insertBefore(errorText, bidInput);
+        console.log('Bid cancelled.');
+
+    }
+
+});
+</script> 
+{% endcomment %}
+{% endblock %}

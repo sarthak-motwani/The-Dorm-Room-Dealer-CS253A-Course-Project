@@ -1,0 +1,66 @@
+<!-- navigation bar for item section -->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>The Dorm Room Dealer</title>
+        <link rel="stylesheet" href="../static/css/nav.css">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <style>
+            .navbar {
+                background-color: black;
+                height: 80px;
+                font-family: 'Barlow Semi Condensed', sans-serif;
+            }
+            
+            .navbar-brand {
+                color: #fff !important;
+                font-size: 2rem;
+                font-weight: bold;
+                margin-left: 20px;
+            }
+            
+            .navbar-nav {
+                margin: 0 auto;
+            }
+            
+            .nav-link {
+                color: #fff !important;
+                font-size: 1.2rem;
+                font-weight: bold;
+                margin-left: 20px;
+            }
+            
+            .nav-link:hover {
+                color: black;
+            }
+            </style>
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-light ">
+                <a class="navbar-brand">The Dorm Room Dealer</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="http://127.0.0.1:8000/home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>

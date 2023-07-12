@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <style>
+        body {
+            background-color: #B8E2F2;
+        }
+    </style>
+    <div class="container">
+        <h2 class="text-center my-4">Future Auctions</h2>
+        <hr></hr>
+        <div class="row justify-content-center">
+            {% for i in items %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <img class="card-img-top" src="{{ i.profile.url }}" alt="{{ i.name }}">
+                        <div class="card-footer">
+                            <div class="card-body">
+                                <h5 class="card-title">Product : {{ i.name }}</h5>
+                                <h5 class="mb-0">Base Price: ₹ {{ i.basePrice }}</h5>    
+                                <h5 class="mb-0">Auction Start Date : {{i.start_date}}</h5>  
+                                <h5 class="mb-0">Auction End Date : {{i.end_date}}</h5>  
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

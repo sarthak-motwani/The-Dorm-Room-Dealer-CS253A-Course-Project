@@ -1,0 +1,243 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    body {
+        background-color: #B8E2F2;
+    }
+
+    select {
+        font-family: 'Barlow Semi Condensed', sans-serif;
+        font-size: 16px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    label {
+        font-family: Arial, sans-serif;
+        font-size: 16px;
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background-color: #3e8e41;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        background-color: transparent;
+        overflow-x: scroll;
+        width: 100%;
+    }
+
+    .pagination a,
+    .pagination span {
+        display: inline-block;
+        padding: 10px 15px;
+        margin: 0 5px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        font-size: 14px;
+        text-align: center;
+        color: white;
+        text-decoration: none;
+        background-color: black;
+    }
+
+    .pagination a:hover {
+        background-color: #f2f2f2;
+    }
+
+    .pagination .current {
+        font-weight: bold;
+    }
+
+    .pagination a.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
+    .sort-by-container {
+        margin-left: -15px;
+    }
+
+    /* Responsive styles */
+
+    @media (max-width: 767px) {
+        /* Adjust styles for small screens */
+        select {
+            width: 100%;
+            margin-right: 0;
+            margin-bottom: 10px;
+        }
+
+        .pagination {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 8px 12px;
+            margin: 0 2px;
+            font-size: 12px;
+        }
+    }
+
+    @media (min-width: 768px) and (max-width: 991px) {
+        /* Adjust styles for medium screens */
+        select {
+            width: 300px;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .pagination {
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 10px 14px;
+            margin: 0 3px;
+            font-size: 14px;
+        }
+    }
+
+    @media (min-width: 992px) {
+        /* Adjust styles for large screens */
+        select {
+            width: 200px;
+            margin-right: 10px;
+            margin-bottom: 0;
+        }
+
+        .pagination {
+            overflow: hidden;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 10px 15px;
+            margin: 0 5px;
+            font-size: 14px;
+        }
+    }
+</style>
+
+<div class="container">
+    <form method="POST" action="{% url 'home' %}">
+        {% csrf_token %}
+        <label for="category">SELECT CATEGORY:</label>
+        <select name="category" id="category">
+            <option value="All categories">All categories</option>
+            <option value="Cycle">Cycle</option>
+            <option value="Cooler">Cooler</option>
+            <option value="Heater">Heater</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Others">Others</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+
+
+    <div class="col-auto sort-by-container">
+        <form method="GET">
+            <label for="filters">SORT PRODUCT BY:</label>
+            <select class="filter_by" name="sort">
+                <option value="sdate">Start Date</option>
+                <option value="edate">End Date</option>
+                <option value="l2h">Price Ascending</option>
+                <option value="h2l">Price Descending</option> 
+            </select>
+            <button type="submit">Sort</button>
+        </form>
+    </div>
+
+    <h2 class="text-center my-4">Live Bids</h2>
+    <hr>
+    </hr>
+    <div class="row justify-content-center">
+        {% for i in page_obj %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" id="item-image" src="{{ i.profile.url }}" alt="{{ i.name }}">
+                <div class="card-footer text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Product : {{ i.name }}</h5>
+                        <h5 class="mb-0">Current Price: ₹ {{ i.currentPrice }}</h5>
+                        <h5 class="mb-0">Hall: {{ i.location }}</h5>
+                        <!-- <h5 class="mb-0">Auction ends on: {{ i.end_date }}</h5> -->
+                    </div>
+                    <a href="items/biditem?id={{ i.id }}" class="btn btn-primary">View and Bid</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="text-center my-4">Future Auctions</h2>
+    <hr>
+    </hr>
+    <div class="row justify-content-center">
+        {% for i in page_obj2 %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img class="card-img-top" id="item-image" src="{{ i.profile.url }}" alt="{{ i.name }}">
+                <div class="card-footer">
+                    <div class="card-body">
+                        <h5 class="card-title">Product : {{ i.name }}</h5>
+                        <h5 class="mb-0">Base Price: ₹ {{ i.basePrice }}</h5>
+                        <h5 class="mb-0">Auction Start Date : {{i.start_date}}</h5>
+                        <h5 class="mb-0">Auction End Date : {{i.end_date}}</h5>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+        <a href="?page=1">&laquo; First</a>
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+{% endblock %}

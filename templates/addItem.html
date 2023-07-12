@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+  body {
+    background-color: #B8E2F2;
+  }
+
+  .container {
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  form {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    max-width: 400px;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+  }
+
+  input[type="text"],
+  textarea,
+  input[type="datetime-local"],
+  input[type="file"],
+  select,
+  input[type="number"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: none;
+    border-bottom: 2px solid #555;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+  }
+
+  select {
+    appearance: none;
+    background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23555" d="M22.7 6.3c-.4-.4-1-.4-1.4 0l-9.9 9.9-2.3-2.3c-.4-.4-1-.4-1.4 0-.4.4-.4 1 0 1.4l3 3c.2.2.5.3.7.3s.5-.1.7-.3l10-10c.4-.4.4-1 0-1.4z"/></svg>') no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 16px auto;
+    padding-right: 32px;
+  }
+
+  input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+    font-family: 'Barlow Semi Condensed', sans-serif;
+  }
+
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+  .error {
+    color: red;
+    margin-top: -8px;
+    margin-bottom: 8px;
+  }
+
+</style>
+
+<div class="container">
+  <h4> ADD ITEM </h4>
+  <form action="additem" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="item-name">Item name:</label>
+          <input type="text" name="iname" id="item-name" class="form-control" placeholder="Enter item name" required>
+        </div>
+        <div class="form-group">
+          <label for="profile-image">Profile image:</label>
+          <input type="file" name="img" id="profile-image" class="form-control-file" accept="image/*" required>
+        </div>
+        <div class="form-group">
+          <label for="optional-image1">Optional image1:</label>
+          <input type="file" name="img1" id="optional-image1" class="form-control-file" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="optional-image2">Optional image2:</label>
+          <input type="file" name="img2" id="optional-image2" class="form-control-file" accept="image/*">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="item-tag">Tag:</label>
+          <select name="itag" id="item-tag" class="form-control" required>
+            <option value="">Select item tag</option>
+            <option value="Cycle">Cycle</option>
+            <option value="Cooler">Cooler</option>
+            <option value="Heater">Heater</option>
+            <option value="Laptop">Laptop</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="item-description">Description:</label>
+          <input type="text" name="disc" id="item-description" class="form-control" maxlength="100"
+            placeholder="Product Description" required>
+        </div>
+        <div class="form-group">
+          <label for="item-hall">Hall:</label>
+          <input type="number" name="location" id="item-hall" class="form-control" placeholder="Product Hall" required>
+        </div>
+        <div class="form-group">
+          <label for="item-price">Set base price:</label>
+          <input type="number" name="iprice" id="item-price" class="form-control" placeholder="Price" required min="0"
+            max="100000">
+        </div>
+        <div class="form-group">
+          <label for="auction-start-date">Auction Start date :</label>
+          <input type="datetime-local" name="s_date" id="auction-start-date" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="auction-end-date">Auction End date :</label>
+          <input type="datetime-local" name="e_date" id="auction-end-date" class="form-control" required>
+        </div>
+      </div>
+    </div>
+    <div class="form-group text-center">
+      <input type="submit" class="btn btn-primary" value="Upload" color="black">
+    </div>
+    <div>
+      <tr>
+        <td>{% for m in messages %}
+          <center>
+            <font color="red">
+              <h2>{{m}}</h2>
+            </font>
+          </center>
+          {% endfor %}
+        </td>
+        <td></td>
+      </tr>
+    </div>
+    {% endblock %}
