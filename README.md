@@ -1,4 +1,4 @@
-# drd
+# The Dorm Room Dealer
 This repository is implementation of the course project CS253.
 # Requirements
 ```python
